@@ -57,6 +57,10 @@ basic.forever(function () {
         if (input.buttonIsPressed(Button.B)) {
             statm = 1
             radio.sendValue("stat", statm)
+            radio.sendValue("me", me)
         }
+    }
+    if (statm == 1 && staty == 1) {
+    	
     }
 })
