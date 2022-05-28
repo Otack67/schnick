@@ -48,6 +48,7 @@ function zeigeScore () {
     basic.pause(1000)
 }
 radio.onReceivedValue(function (name, value) {
+    music.playTone(988, music.beat(BeatFraction.Whole))
     if (name == "score") {
         scorey = value
     } else if (name == "stat") {
@@ -113,7 +114,7 @@ basic.forever(function () {
             music.playMelody("D C D C C C - - ", 120)
             basic.showIcon(IconNames.Sad)
         }
-        basic.pause(500)
+        basic.pause(2000)
         statm = 0
         radio.sendValue("stat", statm)
         basic.pause(500)
