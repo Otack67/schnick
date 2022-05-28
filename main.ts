@@ -37,6 +37,16 @@ function zeigeBild (num: number) {
             `)
     }
 }
+function zeigeScore () {
+    basic.showString("Stand:")
+    basic.pause(500)
+    basic.showNumber(scorem)
+    basic.pause(1000)
+    basic.showString("vs")
+    basic.pause(500)
+    basic.showNumber(scorey)
+    basic.pause(1000)
+}
 radio.onReceivedValue(function (name, value) {
     if (name == "score") {
         scorey = value
@@ -49,12 +59,13 @@ radio.onReceivedValue(function (name, value) {
 let sieger = 0
 let staty = 0
 let scorey = 0
+let scorem = 0
 let you = 0
 let me = 0
 radio.setGroup(42)
 me = 1
 you = 0
-let scorem = 0
+scorem = 0
 scorey = 0
 let statm = 0
 staty = 0
@@ -85,10 +96,26 @@ basic.forever(function () {
         basic.pause(100)
         statm = 2
         radio.sendValue("stat", statm)
+        basic.pause(100)
     }
     if (statm == 2 && staty == 2) {
         if (sieger == 1) {
-            music.playMelody("C - E - G - C5 - ", 120)
+            music.playMelody("G C5 - - - - - - ", 120)
+        } else {
+            music.playMelody("C C - - - - - - ", 120)
         }
+        zeigeScore()
+        if (scorem == 3) {
+            music.playMelody("C E G C5 G E C - ", 120)
+            basic.showIcon(IconNames.Happy)
+        }
+        if (scorey == 3) {
+            music.playMelody("D C D C C C - - ", 120)
+            basic.showIcon(IconNames.Sad)
+        }
+        basic.pause(500)
+        statm = 0
+        radio.sendValue("stat", statm)
+        basic.pause(500)
     }
 })
