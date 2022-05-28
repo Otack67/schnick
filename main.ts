@@ -47,6 +47,17 @@ function zeigeScore () {
     basic.showNumber(scorey)
     basic.pause(1000)
 }
+function zeigeStatus () {
+    if (statm == 0) {
+        basic.setLedColor(0x00ff00)
+    } else if (statm == 1) {
+        basic.setLedColor(0xffff00)
+    } else if (statm == 2) {
+        basic.setLedColor(0xff0000)
+    } else {
+        basic.setLedColor(0x0000ff)
+    }
+}
 radio.onReceivedValue(function (name, value) {
     music.playTone(988, music.beat(BeatFraction.Whole))
     if (name == "score") {
@@ -59,22 +70,25 @@ radio.onReceivedValue(function (name, value) {
 })
 let sieger = 0
 let staty = 0
+let statm = 0
 let scorey = 0
 let scorem = 0
 let you = 0
 let me = 0
+basic.turnRgbLedOff()
 radio.setGroup(42)
 me = 1
 you = 0
 scorem = 0
 scorey = 0
-let statm = 0
+statm = 0
 staty = 0
 sieger = 0
 radio.sendValue("stat", statm)
 radio.sendValue("me", me)
 radio.sendValue("score", scorem)
 basic.forever(function () {
+    zeigeStatus()
     zeigeBild(me)
     if (statm == 0) {
         if (input.buttonIsPressed(Button.A)) {
@@ -90,7 +104,7 @@ basic.forever(function () {
             radio.sendValue("stat", statm)
         }
     }
-    if (statm == 1 && staty == 1) {
+    if (statm == 1 && staty > 0) {
         ermittleSieger()
         scorem += sieger
         radio.sendValue("score", scorem)
