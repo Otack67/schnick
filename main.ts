@@ -1,3 +1,8 @@
+function sendeData () {
+    radio.sendValue("stat", statm)
+    radio.sendValue("me", me)
+    radio.sendValue("score", scorem)
+}
 function ermittleSieger () {
     sieger = 0
     if (me == 1 && you == 3) {
@@ -59,7 +64,6 @@ function zeigeStatus () {
     }
 }
 radio.onReceivedValue(function (name, value) {
-    music.playTone(988, music.beat(BeatFraction.Whole))
     if (name == "score") {
         scorey = value
     } else if (name == "stat") {
@@ -84,10 +88,8 @@ scorey = 0
 statm = 0
 staty = 0
 sieger = 0
-radio.sendValue("stat", statm)
-radio.sendValue("me", me)
-radio.sendValue("score", scorem)
 basic.forever(function () {
+    sendeData()
     zeigeStatus()
     zeigeBild(me)
     if (statm == 0) {
@@ -98,12 +100,14 @@ basic.forever(function () {
             }
         }
         if (input.buttonIsPressed(Button.B)) {
+            music.playTone(784, music.beat(BeatFraction.Whole))
             radio.sendValue("me", me)
             basic.pause(100)
             statm = 1
             radio.sendValue("stat", statm)
         }
     }
+    zeigeStatus()
     if (statm == 1 && staty > 0) {
         ermittleSieger()
         scorem += sieger
@@ -113,6 +117,7 @@ basic.forever(function () {
         radio.sendValue("stat", statm)
         basic.pause(100)
     }
+    zeigeStatus()
     if (statm == 2 && staty == 2) {
         if (sieger == 1) {
             music.playMelody("G C5 - - - - - - ", 120)
